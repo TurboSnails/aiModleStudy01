@@ -1,11 +1,11 @@
 """对话用例 - 解决 QA 问题 9（流式消息丢失风险）"""
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 from aiModelStudy01.adapters.llm.provider_manager import get_provider_manager
 from aiModelStudy01.core.const import MessageRole
-from aiModelStudy01.core.exceptions import ValidationError, RateLimitError
-from aiModelStudy01.core.models import ChatChunk, ChatRequest, ChatResponse, ChatMessage
-from aiModelStudy01.infrastructure.cache.redis_client import check_rate_limit, get_rate_limit_ttl
+from aiModelStudy01.core.exceptions import RateLimitError
+from aiModelStudy01.core.models import ChatChunk, ChatMessage, ChatRequest, ChatResponse
+from aiModelStudy01.infrastructure.cache.redis_client import check_rate_limit
 from aiModelStudy01.infrastructure.config import get_settings
 from aiModelStudy01.infrastructure.repositories.message_repo import MessageRepository
 from aiModelStudy01.infrastructure.repositories.session_repo import SessionRepository
@@ -56,7 +56,6 @@ class ChatUseCase:
         )
 
         # 调用 LLM（带熔断器）
-        adapter = self._provider_manager.get_adapter(request.provider.value)
         response = await self._provider_manager.chat_with_circuit_break(
             request.provider.value, request
         )
@@ -98,7 +97,7 @@ class ChatUseCase:
 
         # 持久化用户消息
         user_content = request.messages[-1].content if request.messages else ""
-        user_msg = await self._message_repo.create(
+        await self._message_repo.create(
             session_id=session.id,
             role=MessageRole.USER.value,
             content=user_content,
@@ -156,7 +155,6 @@ class ChatUseCase:
         )
 
         if not is_allowed:
-            ttl = await get_rate_limit_ttl(self._user_id)
             raise RateLimitError(
                 limit=self._settings.rate_limit_requests_per_minute,
                 window=60,

@@ -1,5 +1,5 @@
 """JWT 安全模块 - 解决 QA 问题 5, 12（Secret 安全 + Token 注销）"""
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import bcrypt
@@ -33,7 +33,7 @@ def create_access_token(
     jti = str(uuid.uuid4())
 
     to_encode = data.copy()
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     expire = now + (
         expires_delta or timedelta(minutes=settings.jwt_expiration_minutes)
     )

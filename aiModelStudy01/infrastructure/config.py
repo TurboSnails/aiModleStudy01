@@ -1,11 +1,8 @@
 """配置管理 - 解决 QA 问题 5, 19（JWT Secret 安全 + 多环境配置）"""
 from functools import lru_cache
-from pathlib import Path
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-from aiModelStudy01.core.const import Provider
 
 
 class Settings(BaseSettings):

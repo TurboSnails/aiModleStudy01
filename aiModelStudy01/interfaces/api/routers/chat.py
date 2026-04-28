@@ -1,11 +1,10 @@
 """对话路由 - 解决 QA 问题 18（SSE Content-Type）"""
-from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from sse_starlette.sse import EventSourceResponse
 
-from aiModelStudy01.application import ChatUseCase, SessionUseCase
-from aiModelStudy01.core.exceptions import AppException, ProviderError
+from aiModelStudy01.application import ChatUseCase
+from aiModelStudy01.core.exceptions import AppException
 from aiModelStudy01.core.models import ChatRequest, ChatResponse, ErrorResponse
 from aiModelStudy01.interfaces.api.deps import (
     CurrentUserId,

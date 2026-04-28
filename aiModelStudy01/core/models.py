@@ -1,11 +1,10 @@
 """统一 DTO 模型（解决 QA 问题 1 - 类型安全）"""
 from datetime import datetime
-from typing import Any, AsyncGenerator
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
 from aiModelStudy01.core.const import MessageRole, Provider
-
 
 # ============ 请求模型 ============
 

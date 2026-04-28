@@ -1,9 +1,8 @@
 """数据库实体定义"""
 import uuid
-from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, Text, func
 from sqlalchemy import Column as SAColumn
+from sqlalchemy import DateTime, ForeignKey, String, Text, func
 from sqlalchemy.orm import relationship
 
 from aiModelStudy01.infrastructure.database import Base

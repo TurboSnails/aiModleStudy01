@@ -1,16 +1,17 @@
 """模型提供商管理器 - 解决 QA 问题 8（Provider 无熔断/fallback）"""
-from collections.abc import AsyncGenerator
 from typing import TYPE_CHECKING
 
 from aiModelStudy01.core.base import LLMAdapter
 from aiModelStudy01.core.const import Provider
-from aiModelStudy01.core.exceptions import ProviderNotFoundError, ProviderError, ProviderTimeoutError
+from aiModelStudy01.core.exceptions import (
+    ProviderError,
+    ProviderNotFoundError,
+    ProviderTimeoutError,
+)
 from aiModelStudy01.infrastructure.config import get_settings
 
 if TYPE_CHECKING:
-    from aiModelStudy01.adapters.llm.minimax import MiniMaxAdapter
-    from aiModelStudy01.adapters.llm.openai import OpenAIAdapter
-    from aiModelStudy01.adapters.llm.anthropic import AnthropicAdapter
+    pass
 
 
 class CircuitState:
@@ -191,9 +192,9 @@ def get_provider_manager() -> ProviderManager:
 
 def _initialize_providers(manager: ProviderManager):
     """初始化所有注册的 Providers"""
+    from aiModelStudy01.adapters.llm.anthropic import AnthropicAdapter
     from aiModelStudy01.adapters.llm.minimax import MiniMaxAdapter
     from aiModelStudy01.adapters.llm.openai import OpenAIAdapter
-    from aiModelStudy01.adapters.llm.anthropic import AnthropicAdapter
 
     settings = get_settings()
 

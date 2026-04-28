@@ -1,4 +1,6 @@
 """FastAPI 依赖注入 - 解决 QA 问题 3（租户隔离）"""
+from collections.abc import AsyncGenerator
+from datetime import UTC
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
@@ -40,8 +42,8 @@ async def get_current_user_id(
     # 检查 Token 是否过期
     exp = payload.get("exp")
     if exp:
-        from datetime import datetime, timezone
-        if datetime.now(timezone.utc).timestamp() > exp:
+        from datetime import datetime
+        if datetime.now(UTC).timestamp() > exp:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token 已过期",

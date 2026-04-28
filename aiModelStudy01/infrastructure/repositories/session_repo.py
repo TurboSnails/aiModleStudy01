@@ -1,7 +1,7 @@
 """会话仓储 - 解决 QA 问题 3（租户数据隔离）"""
-from typing import Sequence
+from collections.abc import Sequence
 
-from sqlalchemy import select, update, delete
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from aiModelStudy01.infrastructure.models import Session as SessionModel

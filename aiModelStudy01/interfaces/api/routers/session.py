@@ -1,17 +1,15 @@
 """会话路由"""
-from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, status
 
 from aiModelStudy01.application import SessionUseCase
-from aiModelStudy01.core.const import Provider
 from aiModelStudy01.core.exceptions import SessionNotFoundError
 from aiModelStudy01.core.models import (
     CreateSessionRequest,
     MessageResponse,
     SessionResponse,
 )
-from aiModelStudy01.interfaces.api.deps import CurrentUserId, SessionRepo, MessageRepo
+from aiModelStudy01.interfaces.api.deps import CurrentUserId, MessageRepo, SessionRepo
 
 router = APIRouter(prefix="/session", tags=["Session"])
 

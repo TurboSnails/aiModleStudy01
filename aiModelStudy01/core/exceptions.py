@@ -115,7 +115,7 @@ class RateLimitError(AppException):
     def __init__(self, limit: int, window: int):
         super().__init__(
             code=ErrorCode.RATE_LIMIT_EXCEEDED,
-            message=f"请求过于频繁，请等待后再试",
+            message="请求过于频繁，请等待后再试",
             status_code=429,
             details={"limit": limit, "window_seconds": window},
         )

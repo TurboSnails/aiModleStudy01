@@ -1,6 +1,6 @@
 """OpenAI 模型适配器"""
 import asyncio
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 import httpx
 from openai import AsyncOpenAI
@@ -96,7 +96,7 @@ class OpenAIAdapter(LLMAdapter):
                 response_id=response.id,
             )
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             raise ProviderTimeoutError(provider=self.provider_name, timeout=120)
         except Exception as e:
             raise ProviderError(provider=self.provider_name, message=str(e))
@@ -134,7 +134,7 @@ class OpenAIAdapter(LLMAdapter):
 
             yield ChatChunk(type="done", content="", done=True)
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             yield ChatChunk(type="error", content=f"[{self.provider_name}] 请求超时")
         except Exception as e:
             yield ChatChunk(type="error", content=str(e))

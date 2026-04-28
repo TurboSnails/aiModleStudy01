@@ -1,6 +1,6 @@
 """Anthropic Claude 模型适配器"""
 import asyncio
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 import anthropic
 from anthropic import AsyncAnthropic
@@ -101,7 +101,7 @@ class AnthropicAdapter(LLMAdapter):
                 response_id=getattr(response, "id", None),
             )
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             raise ProviderTimeoutError(provider=self.provider_name, timeout=120)
         except Exception as e:
             raise ProviderError(provider=self.provider_name, message=str(e))
@@ -126,10 +126,10 @@ class AnthropicAdapter(LLMAdapter):
                 async for text_event in stream.text_stream:
                     yield ChatChunk(type="content", content=text_event, done=False)
 
-                message = await stream.get_final_message()
+                await stream.get_final_message()
                 yield ChatChunk(type="done", content="", done=True)
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             yield ChatChunk(type="error", content=f"[{self.provider_name}] 请求超时")
         except Exception as e:
             yield ChatChunk(type="error", content=str(e))

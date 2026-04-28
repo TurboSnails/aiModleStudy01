@@ -1,13 +1,11 @@
 """认证路由"""
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi import APIRouter, HTTPException, status
+from fastapi.security import HTTPBearer
 
-from aiModelStudy01.core.models import AuthTokenRequest, AuthTokenResponse, ErrorResponse
-from aiModelStudy01.infrastructure import hash_password, verify_password, create_token_for_user
-from aiModelStudy01.infrastructure.repositories.session_repo import SessionRepository
-from aiModelStudy01.interfaces.api.deps import get_current_user_id, SessionRepo
+from aiModelStudy01.core.models import AuthTokenRequest, AuthTokenResponse
+from aiModelStudy01.infrastructure import create_token_for_user, hash_password, verify_password
+from aiModelStudy01.interfaces.api.deps import SessionRepo
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 security = HTTPBearer()
@@ -31,6 +29,7 @@ async def get_token(
     注意：生产环境应使用更安全的认证方式
     """
     from sqlalchemy import select
+
     from aiModelStudy01.infrastructure.models import User
 
     result = await session_repo._session.execute(
@@ -58,6 +57,7 @@ async def register(
 ):
     """注册新用户"""
     from sqlalchemy import select
+
     from aiModelStudy01.infrastructure.models import User
 
     result = await session_repo._session.execute(

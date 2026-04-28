@@ -1,8 +1,8 @@
 """抽象接口定义 - 适配器基类（解决 QA 问题 1, 16）"""
 from abc import ABC, abstractmethod
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
-from aiModelStudy01.core.models import ChatRequest, ChatResponse, ChatChunk
+from aiModelStudy01.core.models import ChatChunk, ChatRequest, ChatResponse
 
 
 class LLMAdapter(ABC):

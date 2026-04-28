@@ -1,6 +1,5 @@
 """Redis 缓存层 - 解决 QA 问题 2（缓存穿透）"""
 import json
-from typing import Any
 
 import redis.asyncio as redis
 

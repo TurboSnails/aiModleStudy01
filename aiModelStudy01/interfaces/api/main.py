@@ -5,12 +5,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from aiModelStudy01.adapters import close_all_providers
 from aiModelStudy01.core.models import HealthResponse
-from aiModelStudy01.infrastructure import init_db, close_db, get_settings
+from aiModelStudy01.infrastructure import close_db, get_settings, init_db
 from aiModelStudy01.infrastructure.cache.redis_client import close_redis, health_check_redis
 from aiModelStudy01.infrastructure.database import health_check_db
-from aiModelStudy01.adapters import close_all_providers
-from aiModelStudy01.interfaces.api.routers import chat, session, auth
+from aiModelStudy01.interfaces.api.routers import auth, chat, session
 
 
 @asynccontextmanager
